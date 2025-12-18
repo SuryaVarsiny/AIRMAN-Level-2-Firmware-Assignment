@@ -1,0 +1,83 @@
+STEP 1 — Development Environment Setup
+VS Code was used as the code editor to write and manage all C and Python files.
+MSYS2 MinGW64 terminal was used to compile C programs using gcc.
+PowerShell (inside VS Code) was used to run Python scripts and display plots.
+Python 3 with matplotlib was installed for real-time visualization.
+
+Why two terminals?
+
+MSYS2 → best for compiling C (gcc)
+PowerShell → best for running Python GUI plots on Windows
+
+STEP 2 — Simulated Sensor Data (C Program)
+Instead of real hardware, IMU data was simulated:
+Accelerometer → sine/cosine motion
+Gyroscope → slowly changing angular rates
+Magnetometer → fixed reference direction
+Altitude and temperature → predictable variation
+This guarantees stable and repeatable inputs for the AHRS filter.
+
+STEP 3 — AHRS Algorithm (Complementary Filter)
+A Complementary Filter was implemented in ahrs.c:
+Gyroscope data provides short-term accuracy
+Accelerometer & magnetometer provide long-term stability
+
+Outputs:
+Roll
+Pitch
+Heading (Yaw)
+This filter is computationally light and suitable for embedded firmware.
+
+STEP 4 — Enhanced Level 2 Telemetry Frame
+The transmitter formats AHRS outputs into a Level 2 frame:
+$L2,<timestamp>,<roll>,<pitch>,<heading>,<alt>,<temp>*<CHK>
+Frames are sent every 50 ms (20 Hz)
+XOR checksum ensures data integrity
+Output is printed to stdout (UART simulation)
+
+STEP 5 — Compiling Level 2 Transmitter (MSYS2)
+In MSYS2 MinGW64 terminal:
+gcc telemetry_tx2.c ahrs.c -lm -o telemetry_tx2.exe
+This produces a Windows executable that continuously outputs Level 2 telemetry frames.
+
+STEP 6 — Python Real-Time Plot Script
+The Python script plot_live.py:
+Reads telemetry lines from standard input
+Parses roll, pitch, and heading
+Updates plots at ≥10 Hz using matplotlib
+Uses the TkAgg backend for Windows GUI support
+
+STEP 7 — Running the Full Pipeline (PowerShell)
+In VS Code PowerShell terminal:
+.\telemetry_tx2.exe | python plot_live.py
+
+What happens:
+C program generates AHRS telemetry
+Output is piped to Python
+Python parses data
+Live plot window opens
+Roll, pitch, and heading update in real time
+
+STEP 8 — Plot Appearance
+A matplotlib window opens automatically
+Three curves are displayed:
+Roll
+Pitch
+Heading
+The plot updates continuously (real-time)
+Closing the window or pressing Ctrl+C stops execution
+
+STEP 9 — Demo Video Recording
+The running plot window and terminal output were recorded
+Duration: 20–40 seconds
+Demonstrates:
+Live AHRS computation
+Stable telemetry
+Real-time visualization
+
+STEP 10 — Key Assumptions & Simplifications
+No real IMU hardware (simulated data)
+UART communication simulated via stdout/stdin
+Complementary filter used instead of Madgwick for simplicity
+
+Focus on correctness and clarity over optimization
