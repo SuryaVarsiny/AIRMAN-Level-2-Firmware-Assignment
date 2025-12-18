@@ -1,55 +1,23 @@
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
+# Compiled C binaries
 *.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.o
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Python cache files
+__pycache__/
+*.pyc
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Python virtual environments
+.venv/
+venv/
 
-# debug information files
-*.dwo
+# Runtime data / logs
+*.csv
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# VS Code workspace settings (optional)
+.vscode/
