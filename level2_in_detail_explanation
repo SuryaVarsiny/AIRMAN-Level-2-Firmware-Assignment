@@ -79,5 +79,5 @@ STEP 10 — Key Assumptions & Simplifications
 No real IMU hardware (simulated data)
 UART communication simulated via stdout/stdin
 Complementary filter used instead of Madgwick for simplicity
-
 Focus on correctness and clarity over optimization
+
